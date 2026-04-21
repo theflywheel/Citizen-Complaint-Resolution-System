@@ -21,7 +21,6 @@ export { BoundaryEdit } from './boundaries/BoundaryEdit';
 export { LocalizationList } from './localization/LocalizationList';
 export { LocalizationShow } from './localization/LocalizationShow';
 export { LocalizationEdit } from './localization/LocalizationEdit';
-export { AdvancedPage } from './advanced/AdvancedPage';
 export { UserList } from './users/UserList';
 export { UserShow } from './users/UserShow';
 export { UserEdit } from './users/UserEdit';

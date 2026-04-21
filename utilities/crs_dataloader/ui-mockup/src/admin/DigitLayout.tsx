@@ -226,7 +226,7 @@ export function DigitLayout({ children }: { children?: ReactNode }) {
             <button
               onClick={() => {
                 if (sidebarCollapsed) {
-                  navigate('/manage/advanced');
+                  navigate('/manage/mdms-schemas');
                 } else {
                   setAdvancedExpanded(!advancedExpanded);
                 }
@@ -234,17 +234,17 @@ export function DigitLayout({ children }: { children?: ReactNode }) {
               className={`
                 w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors
                 ${
-                  location.pathname === '/manage/advanced'
+                  location.pathname.startsWith('/manage/mdms-schemas')
                     ? 'bg-primary/10 text-primary border-l-2 border-primary'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 }
               `}
-              title={sidebarCollapsed ? 'Advanced' : undefined}
+              title={sidebarCollapsed ? 'Schemas' : undefined}
             >
               <Database className="w-5 h-5 flex-shrink-0" />
               {!sidebarCollapsed && (
                 <>
-                  <span className="text-sm font-medium flex-1 text-left">Advanced</span>
+                  <span className="text-sm font-medium flex-1 text-left">Schemas</span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${advancedExpanded ? '' : '-rotate-90'}`}
                   />

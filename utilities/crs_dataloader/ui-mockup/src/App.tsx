@@ -25,7 +25,6 @@ import {
   WorkflowProcessList, WorkflowProcessShow,
   MdmsSchemaList, MdmsSchemaShow,
   BoundaryHierarchyList, BoundaryHierarchyShow,
-  AdvancedPage,
 } from '@/resources';
 import { getGenericMdmsResources, getDataProvider, getAuthProvider, configureDigitClient, digitClient, resetProviders } from '@/providers/bridge';
 import HelpModal from './components/ui/HelpModal';
@@ -112,7 +111,7 @@ function ManagementAdmin() {
 
         {/* Custom routes */}
         <CustomRoutes>
-          <Route path="/advanced" element={<AdvancedPage />} />
+          <Route path="/advanced" element={<Navigate to="/manage/mdms-schemas" replace />} />
         </CustomRoutes>
       </CoreAdminUI>
     </CoreAdminContext>
@@ -145,7 +144,7 @@ function restoreApiClientFromStorage(): { isAuthenticated: boolean; user: AppSta
 
       // Also configure the shared digitClient from the bridge
       const restoredEnv = parsed.environment || 'https://api.egov.theflywheel.in';
-      const restoredTenant = parsed.tenant || 'statea';
+      const restoredTenant = parsed.tenant || 'ke';
       configureDigitClient(restoredEnv, parsed.authToken, {
         id: parsed.user.id ?? 0,
         uuid: parsed.user.uuid ?? '',
@@ -188,7 +187,7 @@ function App() {
       isAuthenticated: false,
       user: null,
       environment: 'https://api.egov.theflywheel.in',
-      tenant: 'statea',
+      tenant: 'ke',
       mode: 'onboarding',
       currentPhase: 1,
       completedPhases: [],
@@ -378,7 +377,7 @@ function App() {
 
   return (
     <AppContext.Provider value={contextValue}>
-      <BrowserRouter>
+      <BrowserRouter basename="/configurator">
         <PageViewTracker />
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <Routes>

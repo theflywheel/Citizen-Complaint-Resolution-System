@@ -20,7 +20,7 @@ export default function LoginPage() {
     environment: ENVIRONMENTS[0].url,
     username: 'ADMIN',
     password: 'eGov@123',
-    tenantCode: 'statea',
+    tenantCode: 'ke',
   });
   const [mode, setMode] = useState<AppMode>('onboarding');
   const [showPassword, setShowPassword] = useState(false);
@@ -225,7 +225,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   className="text-muted-foreground hover:text-primary"
-                  title="Root tenant for authentication (e.g., 'pg' for Punjab)"
+                  title="Root tenant for authentication (e.g., 'ke' for Kenya / Nairobi)"
                 >
                   <HelpCircle className="w-3.5 h-3.5" />
                 </button>
@@ -236,7 +236,7 @@ export default function LoginPage() {
                   type="text"
                   value={formData.tenantCode}
                   onChange={(e) => setFormData({ ...formData, tenantCode: e.target.value })}
-                  placeholder="pg"
+                  placeholder="ke"
                   className="border-input-border focus:border-primary focus:ring-primary"
                   required
                 />

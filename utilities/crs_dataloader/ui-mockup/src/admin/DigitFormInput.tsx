@@ -1,5 +1,6 @@
 // React is used implicitly for JSX transform
 import { useInput, type InputProps } from 'ra-core';
+import { useFormState } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -30,8 +31,10 @@ export function DigitFormInput({
     fieldState,
     isRequired,
   } = useInput(inputProps);
+  const { isSubmitted } = useFormState();
 
-  const hasError = fieldState.invalid && fieldState.isTouched;
+  // Show errors after the user touches a field OR after the first submit attempt.
+  const hasError = fieldState.invalid && (fieldState.isTouched || isSubmitted);
   const errorMessage = fieldState.error?.message;
 
   return (

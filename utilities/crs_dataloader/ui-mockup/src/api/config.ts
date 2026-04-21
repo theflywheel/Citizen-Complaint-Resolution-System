@@ -8,6 +8,11 @@ export interface Environment {
 
 export const ENVIRONMENTS: Environment[] = [
   {
+    name: 'Naipepea',
+    url: 'https://naipepea.digit.org',
+    description: 'Nairobi City County production',
+  },
+  {
     name: 'Chakshu Dev',
     url: 'https://api.egov.theflywheel.in',
     description: 'Chakshu development environment',

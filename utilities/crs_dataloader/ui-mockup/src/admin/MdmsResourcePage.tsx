@@ -5,20 +5,27 @@ import { useListContext, useResourceContext } from 'ra-core';
 import { getResourceConfig, getResourceLabel, getResourceBySchema } from '@/providers/bridge';
 import { useSchemaDefinition } from '@/hooks/useSchemaDefinition';
 import { generateColumns, getRefMap } from './schemaUtils';
+import { TenantScopeBadge } from '@/components/ui/TenantScopeBadge';
+
+function withTenantBadge(columns: DigitColumn[]): DigitColumn[] {
+  return columns.map((col) =>
+    col.source === 'tenantId'
+      ? { ...col, render: (r) => <TenantScopeBadge tenantId={r.tenantId as string | undefined} /> }
+      : col,
+  );
+}
 
 export function MdmsResourcePage() {
   const resource = useResourceContext() ?? '';
   const config = getResourceConfig(resource);
   const label = getResourceLabel(resource);
 
-  // Fetch schema definition for this resource
   const { definition } = useSchemaDefinition(config?.schema);
 
-  // Generate columns from schema (doesn't need data)
   const schemaColumns = useMemo(() => {
     if (!definition) return null;
     const refMap = getRefMap(definition, getResourceBySchema);
-    return generateColumns(definition, refMap);
+    return withTenantBadge(generateColumns(definition, refMap));
   }, [definition]);
 
   const subtitle = config?.schema ? `Schema: ${config.schema}` : undefined;
@@ -34,7 +41,6 @@ export function MdmsResourcePage() {
   );
 }
 
-/** Fallback: auto-detect columns from the first record (original behavior) */
 function AutoDetectDatagrid() {
   const { data } = useListContext();
   const firstRecord = data?.[0];
@@ -44,10 +50,19 @@ function AutoDetectDatagrid() {
     return Object.keys(firstRecord as Record<string, unknown>)
       .filter((key) => !key.startsWith('_') && key !== 'id')
       .slice(0, 8)
-      .map((key) => ({
-        source: key,
-        label: key.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase()),
-      }));
+      .map((key) => {
+        if (key === 'tenantId') {
+          return {
+            source: key,
+            label: 'Tenant',
+            render: (r) => <TenantScopeBadge tenantId={r.tenantId as string | undefined} />,
+          };
+        }
+        return {
+          source: key,
+          label: key.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase()),
+        };
+      });
   }, [firstRecord]);
 
   return <DigitDatagrid columns={columns} rowClick="show" />;
